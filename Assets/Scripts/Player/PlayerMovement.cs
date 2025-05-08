@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     
     [Header("References")] 
     public PlayerCamera playerCamera; // Assign this in Inspector
+    private PlayerCombat combat;
     
     [Header("Movement Variables")] 
     public float speed = 5f;
@@ -23,8 +25,15 @@ public class PlayerMovement : MonoBehaviour
     private bool isInvincible = false;
     private float cooldownTimer = 0f;
 
+    private void Start()
+    {
+        combat = GetComponent<PlayerCombat>();
+    }
+
     void Update()
     {
+        if (combat != null && combat.IsAttacking()) return;
+        
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 inputDir = new Vector3(horizontal, 0, vertical).normalized;
