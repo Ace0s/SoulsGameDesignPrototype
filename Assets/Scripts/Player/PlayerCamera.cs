@@ -77,8 +77,8 @@ public class PlayerCamera : MonoBehaviour
 
         foreach (var enemy in enemies)
         {
-            Vector3 dirToEnemy = (enemy.transform.position - player.position).normalized;
-            float angle = Vector3.Angle(player.forward, dirToEnemy);
+            Vector3 dirToEnemy = (enemy.transform.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, dirToEnemy);
             if (angle < closestAngle)
             {
                 closestAngle = angle;
