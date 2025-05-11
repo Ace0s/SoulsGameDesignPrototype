@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")] 
     public PlayerCamera playerCamera; // Assign this in Inspector
     private PlayerCombat combat;
+    private Animator animator;
     
     [Header("Movement Variables")] 
     public float speed = 5f;
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         combat = GetComponent<PlayerCombat>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -72,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (isRolling)
         {
+            
             transform.position += rollDirection * (rollSpeed * Time.deltaTime);
             rollTimer -= Time.deltaTime;
 
@@ -98,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
             isInvincible = true;
             canRoll = false;
             cooldownTimer = rollCooldown;
-            
+
             Vector3 rollInputDir = new Vector3(horizontal, 0f, vertical).normalized;
 
             if (playerCamera.IsLockedOn() && playerCamera.GetCurrentTarget() != null)
@@ -115,15 +118,31 @@ public class PlayerMovement : MonoBehaviour
                 rollDirection = camYaw * rollInputDir;
             }
 
-            // If no input, roll forward
             if (rollDirection.magnitude < 0.1f)
                 rollDirection = transform.forward;
 
+            // Determine roll direction relative to player
+            Vector3 localDir = transform.InverseTransformDirection(rollDirection.normalized);
+            float forwardDot = localDir.z;
+            float rightDot = localDir.x;
+
+            if (Mathf.Abs(forwardDot) > Mathf.Abs(rightDot))
+            {
+                if (forwardDot > 0)
+                    animator.SetTrigger("RollFWD");
+                else
+                    animator.SetTrigger("RollBack");
+            }
+            else
+            {
+                if (rightDot > 0)
+                    animator.SetTrigger("RollRight");
+                else
+                    animator.SetTrigger("RollLeft");
+            }
+
             isRolling = true;
             rollTimer = rollDuration;
-
-            // Optional: trigger roll animation
-            // animator.SetTrigger("Roll");
         }
     }
 }

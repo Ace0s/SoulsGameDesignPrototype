@@ -63,10 +63,6 @@ public class PlayerCombat : MonoBehaviour
         // Trigger animation
         if (animator != null)
             animator.SetTrigger("Attack");
-
-        // Do hit detection slightly delayed in animation via event
-        // Or immediately here:
-        DoAttack();
     }
     
     void DoAttack()
