@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     
     public float rollCooldown = 0.2f;
     private bool canRoll = true;
-    private bool isInvincible = false;
+    public bool isInvincible = false;
     private float cooldownTimer = 0f;
 
     private void Start()

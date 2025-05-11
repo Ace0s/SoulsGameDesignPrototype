@@ -44,7 +44,7 @@ public class PlayerCamera : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, player.position + lockCamOffset, Time.deltaTime * 10f);
 
             // Look at the enemy
-            transform.LookAt(currentTarget);
+            transform.LookAt(currentTarget.position + Vector3.up * 2.5f);
         }
         else
         {

@@ -41,6 +41,18 @@ public class PlayerCombat : MonoBehaviour
         {
             StartAttack();
         }
+
+        if (health < currentHealth)
+        {
+            currentHealth = health;
+            Debug.Log("PlayerHurt");
+        } else if (health <= 0)
+        {
+            Debug.Log("Player Died");
+            Destroy(gameObject);
+        }
+        
+        
     }
     
     void StartAttack()
